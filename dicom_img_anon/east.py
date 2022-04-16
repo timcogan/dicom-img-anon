@@ -15,14 +15,16 @@ class EAST:
     GEOMETRY_LAYER_NAME: Final[str] = "feature_fusion/concat_3"
     FEATURE_MAP_DECIMATION: Final[float] = 4.0
 
-    def __init__(self, checkpoint: str, width: int = 1024, height: int = 1024, confidence: float = 0.2) -> None:
+    def __init__(
+        self, checkpoint: str = CHECKPOINT_PATH, width: int = 1024, height: int = 1024, confidence: float = 0.2
+    ) -> None:
         self.net = cv2.dnn.readNet(checkpoint)
         self.confidence = confidence
         self.w = width
         self.h = height
 
     def __call__(self, image: ndarray):
-        image = image.copy()
+        image = self.standardize(image.copy())
         (w_original, h_original) = image.shape[:2]
         w_scale = w_original / self.w
         h_scale = h_original / self.h
@@ -33,6 +35,16 @@ class EAST:
 
     def convert_to_blob(self, image: ndarray, scale: float = 1.0, rgb_means=(123.68, 116.78, 103.94)) -> ndarray:
         return cv2.dnn.blobFromImage(image, scale, (self.w, self.h), rgb_means, swapRB=False, crop=False)
+
+    @staticmethod
+    def standardize(image: ndarray) -> ndarray:
+        if image.dtype != np.dtype("uint8"):
+            image = np.array(np.array(image, dtype=float) * 255 / image.max(), dtype=np.uint8)
+
+        if len(image.shape) == 2:
+            image = cv2.cvtColor(image, cv2.COLOR_GRAY2RGB)
+
+        return image
 
     @staticmethod
     def scale_box(box: Box, h_scale: float, w_scale: float) -> Box:

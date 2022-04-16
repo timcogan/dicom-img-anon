@@ -6,7 +6,7 @@ import cv2
 import numpy as np
 import pytest
 
-from dicom_img_anon.east import CHECKPOINT_PATH, EAST, blackout_pixels
+from dicom_img_anon.east import EAST, blackout_pixels
 
 
 def get_rand_string(N: int = 4) -> str:
@@ -24,17 +24,17 @@ def test_image(
     text: str = get_rand_string(),
 ):
     image = np.zeros((rows, cols, 3), dtype=np.uint8)
-    rand_coords = tuple(random.randint(0, c // 2) for c in [rows, cols])
+    rand_coords = tuple(random.randint(c // 4, c // 2) for c in [rows, cols])
     cv2.putText(image, text, rand_coords, cv2.FONT_HERSHEY_SIMPLEX, font_scale, font_color, thickness, line_type)
     return np.array(image)
 
 
 def test_EAST(test_image):
-    east = EAST(CHECKPOINT_PATH)
+    east = EAST()
 
     assert test_image.sum() != 0
 
-    for box in east(test_image):
+    for box in east(np.array(test_image, dtype=np.float64)):
         blackout_pixels(test_image, box)
 
     assert test_image.sum() == 0

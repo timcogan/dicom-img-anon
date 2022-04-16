@@ -37,7 +37,7 @@ node_modules:
 
 coverage:
 	$(MAKE) test
-	for command in xml report ; do \
+	for command in xml html report ; do \
 		$(COVERAGE) $$command --omit=$(PACKAGE_NAME)/version.py ; \
 	done
 
