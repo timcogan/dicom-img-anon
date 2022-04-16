@@ -1,0 +1,8 @@
+env
+tmp
+__pycache__
+*.egg-info
+node_modules
+.vscode
+*version.py
+*coverage*
