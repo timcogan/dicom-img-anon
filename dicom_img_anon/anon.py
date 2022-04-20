@@ -1,9 +1,10 @@
-import pydicom
-from numpy import ndarray
 from pathlib import Path
 from typing import Final, List
-from dicom_img_anon.east import EAST, blackout_pixels
 
+import pydicom
+from numpy import ndarray
+
+from dicom_img_anon.east import EAST, blackout_pixels
 
 TARGET_MODALITIES: Final[List[str]] = ["US"]
 EAST_INSTANCE: Final[EAST] = EAST()

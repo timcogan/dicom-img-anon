@@ -1,5 +1,8 @@
 import argparse
 from pathlib import Path
+
+from tqdm import tqdm
+
 from dicom_img_anon.anon import anon_dicom
 
 
@@ -10,7 +13,9 @@ def parse_args() -> argparse.Namespace:
 
 
 def main(args: argparse.Namespace):
-    for filename in Path(args.folder).rglob("*"):
+    filenames = list(Path(args.folder).rglob("*"))
+
+    for filename in tqdm(filenames):
         try:
             anon_dicom(filename)
         except:

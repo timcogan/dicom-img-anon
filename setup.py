@@ -13,6 +13,7 @@ requirements: Final[List[str]] = [
     "opencv-python",
     "Pillow",
     "pydicom",
+    "tqdm",
 ]
 
 extras: Final[Dict[str, List[str]]] = {

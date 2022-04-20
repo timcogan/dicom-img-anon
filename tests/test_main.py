@@ -1,12 +1,12 @@
-import sys
 import runpy
-from pydicom.data import get_testdata_file
+import sys
 from pathlib import Path
-from test_east import test_image as _test_image
-import pydicom
-import numpy as np
-from numpy import ndarray
 
+import numpy as np
+import pydicom
+from numpy import ndarray
+from pydicom.data import get_testdata_file
+from test_east import test_image as _test_image
 
 test_image = _test_image
 
