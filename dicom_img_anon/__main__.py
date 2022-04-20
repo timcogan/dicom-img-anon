@@ -19,7 +19,7 @@ def main(args: argparse.Namespace):
         try:
             anon_dicom(filename)
         except:
-            pass  # We don't care if the file is not a valid DICOM (e.g. txt file)
+            pass
 
 
 if __name__ == "__main__":

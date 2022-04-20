@@ -76,7 +76,14 @@ class EAST:
 
 
 def blackout_pixels(image: ndarray, box: Box) -> ndarray:
+    rows, cols = image.shape[:2]
     x0, y0, x1, y1 = box
+
+    x0 = min(cols - 1, max(0, x0))
+    x1 = min(cols - 1, max(0, x1))
+    y0 = min(rows - 1, max(0, y0))
+    y1 = min(rows - 1, max(0, y1))
+
     for x in range(x0, x1 + 1):
         for y in range(y0, y1 + 1):
             image[y, x] *= 0
